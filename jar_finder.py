@@ -66,4 +66,3 @@ if __name__ == '__main__':
     jar = jar_finder('https://getbukkit.org/download/craftbukkit')
     for jar_files in range(len(jar.hrefs)):
         print(jar.jar_finder(jar_files), jar.name_finder(jar.jar_finder(jar_files)))
-

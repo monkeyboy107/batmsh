@@ -13,4 +13,3 @@ class downloader:
 if __name__ == '__main__':
     bukkit = downloader('https://cdn.getbukkit.org/craftbukkit/craftbukkit-1.14.3-R0.1-SNAPSHOT.jar', 'server.jar')
     bukkit.download()
-

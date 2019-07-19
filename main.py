@@ -18,4 +18,3 @@ class download:
 if __name__ == '__main__':
     d = download('https://getbukkit.org/download/craftbukkit', 1)
     d.download_jar()
-
