@@ -10,8 +10,8 @@ class download:
         self.jar_version = self.jar.name_finder(self.jar.jar_finder(version))
         self.download_link = self.jar.jar_finder(version)
 
-    def download_jar(self):
-        downloader = minecraft_dowloader.downloader(self.download_link, 'server.jar')
+    def download_jar(self, server='server.jar'):
+        downloader = minecraft_dowloader.downloader(self.download_link, server)
         downloader.download()
 
 
