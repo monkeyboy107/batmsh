@@ -7,6 +7,8 @@ class jar_finder:
         self.url = url
         self.hrefs = ''
         self.site = self.find_site(self.url)
+        self.scrapper()
+        self.parser()
 
     def scrapper(self):
         page = requests.get(self.url)
@@ -39,9 +41,9 @@ class jar_finder:
         site = fordslash.join(site)
         return site
 
-    def find_download(self, sites, download='get', fordslash = '/'):
+    def find_download(self, sites, download='get', ford_slash ='/'):
         getable = []
-        url = self.site + fordslash + download
+        url = self.site + ford_slash + download
         for site in sites:
             if site[0:len(url)] == url:
                 getable.append(site)
@@ -53,9 +55,14 @@ class jar_finder:
         hrefs = root.xpath('//@href')
         return hrefs[33]
 
+    def name_finder(self, jar_name):
+        jar_name = jar_name.split('/')
+        jar_name = jar_name[-1]
+        jar_name = jar_name.replace('-', ' ')
+        return jar_name[0:-4]
+
 
 if __name__ == '__main__':
     jar = jar_finder('https://getbukkit.org/download/craftbukkit')
-    jar.scrapper()
-    jar.parser()
-    jar.jar_finder(0)
+    for jar_files in range(len(jar.hrefs)):
+        print(jar.jar_finder(jar_files), jar.name_finder(jar.jar_finder(jar_files)))
