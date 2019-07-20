@@ -2,7 +2,7 @@ import minecraft_dowloader
 import jar_finder
 
 
-class download:
+class Download:
     def __init__(self, url, version):
         self.url = url
         self.version = version
@@ -16,5 +16,5 @@ class download:
 
 
 if __name__ == '__main__':
-    d = download('https://getbukkit.org/download/craftbukkit', 1)
+    d = Download('https://getbukkit.org/download/craftbukkit', 1)
     d.download_jar()
