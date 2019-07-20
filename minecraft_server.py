@@ -11,14 +11,14 @@ class procs:
                                      stdout=subprocess.PIPE,
                                      stderr=subprocess.PIPE,
                                      shell=True)
-        sleep(60)
         self.server_started = False
         self.mc_runner()
 
     def talk_mc(self, command):
         command = self.byteconvert(command)
+        print(command)
         sleep(1)
-        self.minecraft.stdin.write(command)
+        self.minecraft.communicate(command)
 
     def byteconvert(self, string):
         return string.encode('utf-8')
@@ -27,17 +27,19 @@ class procs:
         return str(byte, 'utf-8')
 
     def mc_runner(self):
-        self.talk_mc('op monkeybpy107')
         while True:
-            self.talk_mc('say Server start')
-            if self.minecraft.stdout.readline() != b'':
-                try:
-                    #if self.server_started == False:
-                    print(self.byteUNconverter(self.minecraft.stdout.readline()).split(" ")[1:-1])
-                    #self.server_started = True
-                except IndexError:
-                    None
-                print(self.byteUNconverter(self.minecraft.stdout.readline()), end='')
+            output = self.minecraft.stdout.readline()
+            if output == []:
+                break
+            if output:
+                print(output.strip())
+            try:
+                if output.split()[3] == b'Done':
+                    self.server_started = True
+            except IndexError:
+                None
+            if self.server_started:
+                self.talk_mc('op monkeyboy107')
 
-
-p = procs('server.jar')
+if __name__ == '__main__':
+    p = procs('server.jar')
