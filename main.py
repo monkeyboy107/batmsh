@@ -23,7 +23,7 @@ class run_minecraft:
     def __init__(self, jar_name):
         self.mc_server = minecraft_server.procs(jar_name)
 
-    def accept_eula(self, accept='false', eula_file='eula.txt'):
+    def accept_eula(self, accept=False, eula_file='eula.txt'):
         self.mc_server.accept_eula(accept=accept, eula_file=eula_file)
 
 if __name__ == '__main__':

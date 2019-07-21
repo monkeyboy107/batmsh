@@ -51,7 +51,7 @@ class procs:
             if self.server_started:
                 self.talk_mc('op monkeyboy107')
 
-    def accept_eula(self, accept='false', eula_file='eula.txt'):
+    def accept_eula(self, accept=False, eula_file='eula.txt'):
         if type(accept) == bool:
             accept = str(accept)
         accept = 'eula=' + accept
