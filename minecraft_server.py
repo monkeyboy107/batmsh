@@ -18,7 +18,7 @@ class procs:
                                      stderr=subprocess.PIPE,
                                      shell=True)
         self.server_started = False
-        self.mc_runner()
+        #self.mc_runner()
 
     def talk_mc(self, command):
         print('Talking to minecraft server')
@@ -51,9 +51,10 @@ class procs:
             if self.server_started:
                 self.talk_mc('op monkeyboy107')
 
-    def accept_eula(self, accept=False, eula_file='eula.txt'):
+    def accept_eula(self, accept='false', eula_file='eula.txt'):
         if type(accept) == bool:
             accept = str(accept)
+        accept = 'eula=' + accept
         with open(eula_file, 'w') as eula:
             eula.write(accept)
 

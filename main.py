@@ -23,12 +23,12 @@ class run_minecraft:
     def __init__(self, jar_name):
         self.mc_server = minecraft_server.procs(jar_name)
 
-    def accept_eula(self, accept=False, eula_file='eula.txt'):
+    def accept_eula(self, accept='false', eula_file='eula.txt'):
         self.mc_server.accept_eula(accept=accept, eula_file=eula_file)
 
 if __name__ == '__main__':
     d = Download('https://getbukkit.org/download/craftbukkit', 0)
     d.download_jar()
     run = run_minecraft('server.jar')
-    #run.accept_eula(accept=True)
+    run.accept_eula(accept=True)
     run.mc_server.mc_runner()
