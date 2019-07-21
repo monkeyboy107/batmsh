@@ -26,7 +26,6 @@ class run_minecraft:
     def accept_eula(self, accept=False, eula_file='eula.txt'):
         self.mc_server.accept_eula(accept=accept, eula_file=eula_file)
 
-
 if __name__ == '__main__':
     d = Download('https://getbukkit.org/download/craftbukkit', 0)
     d.download_jar()
