@@ -15,7 +15,7 @@ class downloader:
     def download(self, force_download=False):
         print('Downloading the jar')
         if not os.path.exists(self.name) or force_download:
-            print('Right before downloading')
+            print('Right before downloading, this sometimes takes a minute')
             request = requests.get(self.url)
             with open(self.name, 'wb') as jar:
                 print('Done downloading')

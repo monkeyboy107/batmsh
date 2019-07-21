@@ -1,5 +1,6 @@
 import subprocess
 from time import sleep
+import multiprocessing
 import py_compile
 import os.path
 
@@ -18,14 +19,44 @@ class procs:
                                      stderr=subprocess.PIPE,
                                      shell=True)
         self.server_started = False
-        #self.mc_runner()
+        self.commands_to_be_run = []
+
+    def start_server(self):
+        talker_thread = self
+        runner_thread = self
+        talker = multiprocessing.Process(target=talker_thread.talk_mc_runner(), args=talker_thread)
+        runner = multiprocessing.Process(target=runner_thread.mc_runner(), args=runner_thread)
+        talker.start()
+        runner.start()
+        talker.join()
+        runner.join()
+
+    def append_commands(self, commands):
+        print('appending_commands is started with: ' + commands)
+        self.commands_to_be_run.append(commands)
+
+    def talk_mc_runner(self):
+        print('Starting talk_mc_runner')
+        while True:
+            if self.server_started:
+                try:
+                    self.talk_mc(self.commands_to_be_run.pop())
+                    sleep(30)
+                except IndexError:
+                    None
+            if not self.commands_to_be_run == []:
+                print(self.commands_to_be_run)
 
     def talk_mc(self, command):
         print('Talking to minecraft server')
         command = self.byteconvert(command)
         print(command)
-        sleep(1)
-        self.minecraft.communicate(command)
+        sleep(20)
+        try:
+            self.minecraft.communicate(command, timeout=1)
+        except subprocess.TimeoutExpired:
+            None
+        print('Done with talk_mc')
 
     def byteconvert(self, string):
         print('Converting to bytes')
@@ -38,8 +69,10 @@ class procs:
     def mc_runner(self):
         print('Running minecraft')
         while True:
+            #print('Back in the loop for the mc_runner')
             output = self.minecraft.stdout.readline()
             if output == []:
+                print('Breaking the mc_runner loop')
                 break
             if output:
                 print(output.strip())
@@ -49,7 +82,7 @@ class procs:
             except IndexError:
                 None
             if self.server_started:
-                self.talk_mc('op monkeyboy107')
+                self.append_commands('op monkeyboy107')
 
     def accept_eula(self, accept=False, eula_file='eula.txt'):
         if type(accept) == bool:
@@ -60,4 +93,5 @@ class procs:
 
 if __name__ == '__main__':
     p = procs('server.jar')
-    #p.mc_runner()
+    p.accept_eula(accept=True)
+    p.start_server()

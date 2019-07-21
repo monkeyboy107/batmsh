@@ -17,7 +17,7 @@ class Download:
 
     def download_jar(self, server='server.jar', force_download=False):
         downloader = minecraft_dowloader.downloader(self.download_link, server)
-        downloader.download()
+        downloader.download(force_download=force_download)
 
 class run_minecraft:
     def __init__(self, jar_name):
@@ -31,4 +31,4 @@ if __name__ == '__main__':
     d.download_jar()
     run = run_minecraft('server.jar')
     run.accept_eula(accept=True)
-    run.mc_server.mc_runner()
+    run.mc_server.start_server()
