@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#rm server.jar
+rm server.jar
 rm banned-ips.json
 rm banned-players.json
 rm bukkit.yml
@@ -15,3 +15,5 @@ rm -r world
 rm -r world_nether
 rm -r world_the_end
 rm -r plugins
+rm -r crash-reports
+rm -r logs
