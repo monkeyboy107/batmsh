@@ -11,6 +11,7 @@ rm permissions.yml
 rm server.properties
 rm usercache.json
 rm whitelist.json
+rm .command
 rm -r world
 rm -r world_nether
 rm -r world_the_end

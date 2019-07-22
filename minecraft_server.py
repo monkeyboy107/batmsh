@@ -3,6 +3,7 @@ from time import sleep
 import multiprocessing
 import py_compile
 import os.path
+from os import remove
 
 py_compile.compile(os.path.basename(__file__))
 
@@ -20,12 +21,13 @@ class procs:
                                      shell=True)
         self.server_started = False
         self.commands_to_be_run = []
+        self.command_file = '.command'
 
     def start_server(self):
         talker_thread = self
         runner_thread = self
-        talker = multiprocessing.Process(target=talker_thread.talk_mc_runner(), args=talker_thread)
         runner = multiprocessing.Process(target=runner_thread.mc_runner(), args=runner_thread)
+        talker = multiprocessing.Process(target=talker_thread.talk_mc_runner(), args=talker_thread)
         talker.start()
         runner.start()
         talker.join()
@@ -34,10 +36,26 @@ class procs:
     def append_commands(self, commands):
         print('appending_commands is started with: ' + commands)
         self.commands_to_be_run.append(commands)
+        try:
+            with open(self.command_file, 'r') as command:
+                for line in command.read().split('\n'):
+                    command.append(line)
+        except FileNotFoundError:
+            None
+        with open(self.command_file, 'w+') as command:
+            for line in command:
+                command.write(line)
 
     def talk_mc_runner(self):
         print('Starting talk_mc_runner')
         while True:
+            try:
+                with open(self.command_file, 'r') as commands:
+                    for line in commands.read().split('\n'):
+                        self.commands_to_be_run.append(line)
+                    remove(self.command_file)
+            except FileNotFoundError:
+                None
             if self.server_started:
                 try:
                     self.talk_mc(self.commands_to_be_run.pop())

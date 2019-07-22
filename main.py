@@ -6,7 +6,6 @@ import os.path
 
 py_compile.compile(os.path.basename(__file__))
 
-
 class Download:
     def __init__(self, url, version):
         self.url = url
